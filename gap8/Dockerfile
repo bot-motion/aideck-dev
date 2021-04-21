@@ -20,8 +20,7 @@ RUN git clone https://github.com/GreenWaves-Technologies/gap_sdk.git; cd gap_sdk
 
 RUN pip3 install -U pip && cd gap_sdk && pip3 install -r requirements.txt; 
 
-# These are needed since python2 is used by standard in 18.04
-RUN apt-get install -y python-pip
+RUN apt-get install -y python3-pip
 RUN python -m pip install configparser
 #RUN pip3 install requests
 

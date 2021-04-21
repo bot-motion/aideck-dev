@@ -1,2 +1,2 @@
 #!/bin/bash
-export GAP_SDK_VERSION=3.8.1
+export GAP_SDK_VERSION=3.9.1
