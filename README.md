@@ -1,3 +1,4 @@
+[this is still work in progress]
 
 Development kit for the AI deck
 ===============================
