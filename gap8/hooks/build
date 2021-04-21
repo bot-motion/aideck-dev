@@ -1,0 +1,4 @@
+#!/bin/bash
+export GAP_SDK_VERSION=3.8.1
+echo .... SDK Version set to ${GAP_SDK_VERSION}
+docker build --tag $IMAGE_NAME -f $DOCKERFILE_PATH --build-arg GAP_SDK_VERSION .

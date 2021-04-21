@@ -1,0 +1,1 @@
+docker run --rm -it --privileged -v $PWD:/module --device /dev/ttyUSB0 stm:1.1 /bin/bash
