@@ -11,17 +11,30 @@ This repo provides
 * example bash scripts how to run and use these docker images
 * hints on how to integrate these docker images with VS Code to make debugging a breeze.
 
+Dependencies
+------------
+You need Docker and a standard Linux machine. This was tested and set up on Ubuntu 20.04.
+
 
 Creating the docker images
-==========================
-
+--------------------------
+You can fork this repo and set up your own builds on Docker Hub, or you can use the script `create.sh` to build your
+own images.
 
 
 Getting into a docker image and using the toolchain 
-===================================================
+---------------------------------------------------
 
 
 
- 
+
+
+Setting up VS Code 
+------------------
+
+Refer to the [VS Code tutorial on developing inside containers](https://code.visualstudio.com/docs/remote/containers-tutorial)
+for general pointers on how to use VS Code with the Docker images set up here.
+
+
 
 
