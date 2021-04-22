@@ -15,6 +15,7 @@ This repo provides
 * a dockerfile for each chip to build a self-contained development environment for the respective chip
 * example bash scripts how to run and use these docker images
 * hints on how to integrate these docker images with VS Code to make debugging a breeze.
+* example hook files if you want to use these images in a [Github CI setup](https://docs.github.com/en/actions/learn-github-actions)
 
 Dependencies
 ------------

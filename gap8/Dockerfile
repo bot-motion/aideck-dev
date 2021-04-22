@@ -1,5 +1,7 @@
-FROM ubuntu:20.04
-
+#FROM ubuntu:20.04
+# Remember: if you upgrade, you run into problems with the OpenCV install
+# easy to fix, but then you can't take the official github repo SDK
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND noninteractive 
 ARG GAP_SDK_VERSION
@@ -8,6 +10,9 @@ RUN echo $GAP_SDK_VERSION
 # Install needed packages
 RUN apt-get update && apt-get install -y build-essential git libftdi-dev libftdi1 doxygen python3-pip libsdl2-dev curl cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev 
 RUN apt-get install -y wget
+
+# on Ubuntu 20.04 you also need
+# RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 # Install gap8 openocd
 RUN git clone https://github.com/GreenWaves-Technologies/gap8_openocd.git; cd gap8_openocd; ./bootstrap; ./configure --program-prefix=gap8- --prefix=/usr --datarootdir=/usr/share/gap8-openocd; make -j; make -j install
@@ -21,7 +26,7 @@ RUN git clone https://github.com/GreenWaves-Technologies/gap_sdk.git; cd gap_sdk
 RUN pip3 install -U pip && cd gap_sdk && pip3 install -r requirements.txt; 
 
 RUN apt-get install -y python3-pip
-RUN python -m pip install configparser
+RUN python3 -m pip install configparser
 #RUN pip3 install requests
 
 #RUN /bin/bash -c "echo 'alias python = python3' >> ~/.bashrc "
@@ -40,5 +45,5 @@ RUN apt-get install -y libopencv-dev python3-opencv
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make gap_tools"
 
-RUN mkdir -p /module/data/
-WORKDIR /module/data/
+RUN mkdir -p /module
+WORKDIR /module
