@@ -30,16 +30,16 @@ RUN git clone https://github.com/GreenWaves-Technologies/gap_riscv_toolchain_ubu
 # Install Gap SDK
 RUN git clone https://github.com/GreenWaves-Technologies/gap_sdk.git; cd gap_sdk && git fetch --all --tags && git checkout tags/release-v${GAP_SDK_VERSION} && git submodule update --init --recursive
 
-#RUN pip3 install -U pip && 
+RUN pip3 install -U pip 
 
 RUN cd gap_sdk && python3 -m pip install -r requirements.txt
 RUN python3 -m pip install requests
 RUN python3 -m pip install configparser
 
 # scons on Ubuntu 18.04 seems not to find the python3 configparser, possibly b/c it relies on python2
-RUN which python; which python3; python -m pip install configparser
+RUN which python; which python3; python --version; python3 --version; python -m pip install configparser
 
-RUN /bin/bash -c "echo 'alias python = python3' >> ~/.bashrc "
+#RUN /bin/bash -c "echo 'alias python = python3' >> ~/.bashrc "
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make all;"
 
