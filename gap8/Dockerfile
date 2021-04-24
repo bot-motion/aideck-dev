@@ -30,21 +30,20 @@ RUN git clone https://github.com/GreenWaves-Technologies/gap_riscv_toolchain_ubu
 # Install Gap SDK
 RUN git clone https://github.com/GreenWaves-Technologies/gap_sdk.git; cd gap_sdk && git fetch --all --tags && git checkout tags/release-v${GAP_SDK_VERSION} && git submodule update --init --recursive
 
-RUN pip3 install -U pip && cd gap_sdk && pip3 install -r requirements.txt; 
-RUN pip3 install requests 
-RUN pip3 install configparser
+#RUN pip3 install -U pip && 
 
-# RUN apt-get install -y python3-pip
-# RUN python3 -m pip install configparser
+RUN cd gap_sdk && python3 -m pip install -r requirements.txt
+RUN python3 -m pip install requests
+RUN python3 -m pip install configparser
 
 RUN /bin/bash -c "echo 'alias python = python3' >> ~/.bashrc "
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make all;"
 
 #RUN pip3 install numpy
-RUN cd gap_sdk/tools/nntool; pip3 install -r requirements.txt
-RUN pip3 install tensorflow==1.15.2
-RUN pip3 install h5py==2.10.0
+RUN cd gap_sdk/tools/nntool; python3 -m pip install -r requirements.txt
+RUN python3 -m pip install tensorflow==1.15.2
+RUN python3 -m pip install h5py==2.10.0
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make nntool"
 
