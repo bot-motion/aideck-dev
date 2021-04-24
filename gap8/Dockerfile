@@ -1,18 +1,17 @@
 #FROM ubuntu:20.04
 # Remember: if you upgrade, you run into problems with the OpenCV install
 # easy to fix, but then you can't take the official github repo SDK
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive 
 ARG GAP_SDK_VERSION
 RUN echo $GAP_SDK_VERSION
 
 # Install needed packages
-RUN apt-get update && apt-get install -y build-essential git libftdi-dev libftdi1 doxygen python3-pip libsdl2-dev curl cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev 
-RUN apt-get install -y wget
+RUN apt-get update && apt-get install -y build-essential git libftdi-dev libftdi1 doxygen python3-pip libsdl2-dev curl wget cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev  libjpeg-dev
 
 # on Ubuntu 20.04 you also need
-# RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 # Install gap8 openocd
 RUN git clone https://github.com/GreenWaves-Technologies/gap8_openocd.git; cd gap8_openocd; ./bootstrap; ./configure --program-prefix=gap8- --prefix=/usr --datarootdir=/usr/share/gap8-openocd; make -j; make -j install
@@ -24,13 +23,13 @@ RUN git clone https://github.com/GreenWaves-Technologies/gap_riscv_toolchain_ubu
 RUN git clone https://github.com/GreenWaves-Technologies/gap_sdk.git; cd gap_sdk && git fetch --all --tags && git checkout tags/release-v${GAP_SDK_VERSION} && git submodule update --init --recursive
 
 RUN pip3 install -U pip && cd gap_sdk && pip3 install -r requirements.txt; 
+RUN pip3 install requests 
+RUN pip3 install configparser
 
-RUN apt-get install -y python3-pip
-RUN python3 -m pip install configparser
-#RUN pip3 install requests
+# RUN apt-get install -y python3-pip
+# RUN python3 -m pip install configparser
 
-#RUN /bin/bash -c "echo 'alias python = python3' >> ~/.bashrc "
-
+RUN /bin/bash -c "echo 'alias python = python3' >> ~/.bashrc "
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make all;"
 
@@ -40,10 +39,14 @@ RUN pip3 install h5py==2.10.0
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make nntool"
 
-
 RUN apt-get install -y libopencv-dev python3-opencv
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make gap_tools"
+
+# Install RISC V GDB as per README by Greenwaves Technologies
+RUN mkdir /usr/lib/risc64_elf_ubuntu_toolchain; cd /usr/lib/risc64_elf_ubuntu_toolchain
+RUN wget https://github.com/riscv/riscv-gnu-toolchain/releases/download/2021.04.03/riscv64-elf-ubuntu-20.04-nightly-2021.04.03-nightly.tar.gz
+RUN tar xzf  riscv64-elf-ubuntu-20.04-nightly-2021.04.03-nightly.tar.gz
 
 RUN mkdir -p /module
 WORKDIR /module
