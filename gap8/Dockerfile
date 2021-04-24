@@ -1,7 +1,7 @@
 #FROM ubuntu:20.04
 # Remember: if you upgrade, you run into problems with the OpenCV install
 # easy to fix, but then you can't take the official github repo SDK
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND noninteractive 
 ARG GAP_SDK_VERSION
@@ -9,16 +9,16 @@ RUN echo $GAP_SDK_VERSION
 
 # Install python 3.7 / needed for tensorflow 1.15 which is compatible with GAP8 SDK 3.9.1.
 # Beware: Ubuntu 20.04 is suggested for the SDK 3.9.1 but comes with Python 3.8 as the standard py install
-RUN apt update
-RUN apt install software-properties-common
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt install python3.7
+#RUN apt update
+#RUN apt install software-properties-common
+#RUN add-apt-repository ppa:deadsnakes/ppa
+#RUN apt install python3.7
 
 # on Ubuntu 20.04 you also need
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+#RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
-# Install needed packages  [took out python3-pip]
-RUN apt-get update && apt-get install -y build-essential git libftdi-dev libftdi1 doxygen libsdl2-dev curl wget cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev  libjpeg-dev
+# Install needed packages  [on Ubuntu 20.04 take out python3-pip]
+RUN apt-get update && apt-get install -y build-essential git python3-pip libftdi-dev libftdi1 doxygen libsdl2-dev curl wget cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev  libjpeg-dev
 
 
 # Install gap8 openocd
@@ -41,10 +41,10 @@ RUN /bin/bash -c "echo 'alias python = python3' >> ~/.bashrc "
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make all;"
 
+#RUN pip3 install numpy
+RUN cd gap_sdk/tools/nntool; pip3 install -r requirements.txt
 RUN pip3 install tensorflow==1.15.2
 RUN pip3 install h5py==2.10.0
-RUN pip3 install numpy
-RUN cd gap_sdk/tools/nntool; pip3 install -r requirements.txt
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make nntool"
 
