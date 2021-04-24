@@ -37,7 +37,7 @@ RUN python3 -m pip install requests
 RUN python3 -m pip install configparser
 
 # scons on Ubuntu 18.04 seems not to find the python3 configparser, possibly b/c it relies on python2
-RUN which python; which python3; python --version; python3 --version; python -m pip install configparser
+RUN which python; which python3; python --version; python3 --version; python3 -m pip install configparser
 
 #RUN /bin/bash -c "echo 'alias python = python3' >> ~/.bashrc "
 
