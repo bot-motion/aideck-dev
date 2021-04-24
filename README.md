@@ -3,12 +3,12 @@
 Development kit for the AI deck
 ===============================
 
-Developing for the [AI Deck](https://store.bitcraze.io/collections/decks/products/ai-deck-1-1) of the Crazyflie 
+Developing for the [AI Deck](https://store.bitcraze.io/collections/decks/products/ai-deck-1-1) of the [nano-quadcopter Crazyflie](https://www.bitcraze.io/products/crazyflie-2-1/) 
 requires programming three different chips, each requiring its own toolchain, debug setup and SDKs:
 
-* the GAP8 chip by Greenwaves Technologies, using the GAP8 SDK,
-* the NINA chip by ESP and
-* the STM...F4 on the quadcopter itself, using the ARM toolchain
+* the GAP8 chip by Greenwaves Technologies, using the [GAP8 SDK](https://github.com/GreenWaves-Technologies/gap_sdk) currently at v 3.9.1,
+* the NINA-W102 chip by [ESP](https://github.com/espressif/esp-idf) and
+* the STM32F405 on the quadcopter itself, using the [ARM toolchain](https://launchpad.net/gcc-arm-embedded/+announcement/22902)
 
 This repo provides
 
@@ -37,6 +37,8 @@ Getting into a docker image and using the toolchain
 Use the bash scripts in `bin` to log into a container based on the images. If you want to use chip programmers, make sure to 
 update the USB port in the scripts.
 
+Check the respective dockerfile to understand where everything was installed inside the different images. In general, each image contains
+the SDK for the chip and an appropriate version of OpenOCD and GDB.
 
 Setting up VS Code 
 ------------------
@@ -44,9 +46,14 @@ Setting up VS Code
 Refer to the [VS Code tutorial on developing inside containers](https://code.visualstudio.com/docs/remote/containers-tutorial)
 for general pointers on how to use VS Code with the Docker images set up here.
 
+Setting up Github CI
+--------------------
+
+
 
 Credits
 -------
 This work has heavily borrowed from work by the [Bitcraze team](https://github.com/bitcraze). The `stm-arm` image, used for 
-programming the main chip on the Crazyflie itself, is a modified version of the [build image by Bitcraze](https://github.com/bitcraze/docker-builder).
+programming the STM32F405 chip on the Crazyflie itself, is a modified version of the [build image by Bitcraze](https://github.com/bitcraze/docker-builder) 
+-- it includes OpenOCD for STM chips to enable debugging from the docker image.
 

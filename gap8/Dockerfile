@@ -7,11 +7,19 @@ ENV DEBIAN_FRONTEND noninteractive
 ARG GAP_SDK_VERSION
 RUN echo $GAP_SDK_VERSION
 
-# Install needed packages
-RUN apt-get update && apt-get install -y build-essential git libftdi-dev libftdi1 doxygen python3-pip libsdl2-dev curl wget cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev  libjpeg-dev
+# Install python 3.7 / needed for tensorflow 1.15 which is compatible with GAP8 SDK 3.9.1.
+# Beware: Ubuntu 20.04 is suggested for the SDK 3.9.1 but comes with Python 3.8 as the standard py install
+RUN apt update
+RUN apt install software-properties-common
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt install python3.7
 
 # on Ubuntu 20.04 you also need
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+
+# Install needed packages  [took out python3-pip]
+RUN apt-get update && apt-get install -y build-essential git libftdi-dev libftdi1 doxygen libsdl2-dev curl wget cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev  libjpeg-dev
+
 
 # Install gap8 openocd
 RUN git clone https://github.com/GreenWaves-Technologies/gap8_openocd.git; cd gap8_openocd; ./bootstrap; ./configure --program-prefix=gap8- --prefix=/usr --datarootdir=/usr/share/gap8-openocd; make -j; make -j install
