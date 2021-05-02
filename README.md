@@ -25,12 +25,11 @@ You need Docker and a standard Linux machine. This was tested and set up on Ubun
 Creating the docker images
 --------------------------
 You can fork this repo and set up your own builds on Docker Hub, or you can use the script `create.sh` to build your
-own images. If you don't want to build your own, you can download them from the profile `simatai` on Docker Hub using
+own images. If you don't want to build your own, you can [download them from the profile `simatai` on Docker Hub](https://hub.docker.com/u/simatai) using
 
     docker pull simatai/stm-arm:1.1
     docker pull simatai/espidf:3.3.1
     docker pull simatai/gap8:3.9.1
-
 
 Getting into a docker image and using the toolchain 
 ---------------------------------------------------
@@ -38,7 +37,38 @@ Use the bash scripts in `bin` to log into a container based on the images. If yo
 update the USB port in the scripts.
 
 Check the respective dockerfile to understand where everything was installed inside the different images. In general, each image contains
-the SDK for the chip and an appropriate version of OpenOCD and GDB.
+the SDK for the chip and an appropriate version of OpenOCD and GDB. The working directory for every image is `/module`.
+
+
+Installing the autotiler for GAP8
+---------------------------------
+
+Open up the container to install the auto tiler
+```
+docker run --rm -it gapsdk:${GAP_SDK_VERSION} /bin/bash
+```
+
+Then in the container write:
+```
+cd /gap_sdk
+source configs/ai_deck.sh
+make autotiler
+```
+This will install the autotiler, which requires you to register your email and get a special URL token to download and install the autotiler.
+
+In a separate terminal on your local machine, commit the changes to the image by first looking up the container ID status:
+```
+docker ps
+```
+
+Copy and past the container ID and replace the <container id> on the line here below, then run it in the separate terminal (also adapt the SDK version if you did before)
+```
+export GAP_SDK_VERSION=3.8.1
+docker commit <container id> gapsdk:${GAP_SDK_VERSION}
+```
+
+This will save the install of the autotiler on your image. You can close the container in the other terminal with 'exit'
+
 
 Setting up VS Code 
 ------------------
