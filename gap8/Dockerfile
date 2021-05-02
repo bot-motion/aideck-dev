@@ -18,7 +18,7 @@ RUN echo $GAP_SDK_VERSION
 #RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 # Install needed packages  [on Ubuntu 20.04 take out python3-pip]
-RUN apt-get update && apt-get install -y build-essential git python3-pip libftdi-dev libftdi1 doxygen libsdl2-dev curl wget cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev  libjpeg-dev
+RUN apt-get update && apt-get install -y build-essential protobuf-compiler git python3-pip libftdi-dev libftdi1 doxygen libsdl2-dev curl wget cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev  libjpeg-dev
 
 
 # Install gap8 openocd
