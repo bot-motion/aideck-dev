@@ -1,4 +1,3 @@
-[this is still work in progress]
 
 Development kit for the AI deck
 ===============================
@@ -7,8 +6,10 @@ Developing for the [AI Deck](https://store.bitcraze.io/collections/decks/product
 requires programming three different chips, each requiring its own toolchain, debug setup and SDKs:
 
 * the GAP8 chip by Greenwaves Technologies, using the [GAP8 SDK](https://github.com/GreenWaves-Technologies/gap_sdk) currently at v 3.9.1,
-* the NINA-W102 chip by [ESP](https://github.com/espressif/esp-idf) and
+* the NINA-W102 chip by [ESP](https://github.com/espressif/esp-idf) -- you'll need the SDK at v 3.3.1 -- and
 * the STM32F405 on the quadcopter itself, using the [ARM toolchain](https://launchpad.net/gcc-arm-embedded/+announcement/22902)
+
+Installing all this in parallel on the same machine easily leads to a lot of trouble with different python versions, incompatible packages etc.
 
 This repo provides
 
@@ -33,8 +34,9 @@ own images. If you don't want to build your own, you can [download them from the
 
 Getting into a docker image and using the toolchain 
 ---------------------------------------------------
-Use the bash scripts in `bin` to log into a container based on the images. If you want to use chip programmers, make sure to 
-update the USB port in the scripts.
+
+Use the bash scripts in `bin` to log into a container based on the images. Make sure to 
+update the USB port in the scripts depending on where your chip programmer is connected.
 
 Check the respective dockerfile to understand where everything was installed inside the different images. In general, each image contains
 the SDK for the chip and an appropriate version of OpenOCD and GDB. The working directory for every image is `/module`.
@@ -43,8 +45,11 @@ the SDK for the chip and an appropriate version of OpenOCD and GDB. The working 
 Installing the autotiler for GAP8
 ---------------------------------
 
+If you want to use the autotiler for the GAP8 chip, you need to accept the license conditions by Greenwaves. This is done inside the container.
+
 Open up the container to install the auto tiler
 ```
+export GAP_SDK_VERSION=3.9.1
 docker run --rm -it gapsdk:${GAP_SDK_VERSION} /bin/bash
 ```
 
@@ -63,11 +68,12 @@ docker ps
 
 Copy and past the container ID and replace the <container id> on the line here below, then run it in the separate terminal (also adapt the SDK version if you did before)
 ```
-export GAP_SDK_VERSION=3.8.1
+export GAP_SDK_VERSION=3.9.1
 docker commit <container id> gapsdk:${GAP_SDK_VERSION}
 ```
 
-This will save the install of the autotiler on your image. You can close the container in the other terminal with 'exit'
+This will save the install of the autotiler on your image. You can close the container in the other terminal with 'exit'. This step cannot be automated in my opinion --
+if you know how that could work, let me know.
 
 
 Setting up VS Code 
@@ -79,11 +85,13 @@ for general pointers on how to use VS Code with the Docker images set up here.
 Setting up Github CI
 --------------------
 
-
+You can use the docker images above to [set up continous integration in your github repo](https://docs.github.com/en/actions/learn-github-actions/essential-features-of-github-actions). 
+The example yaml files in the `ci` folder show how to do that.
 
 Credits
 -------
 This work has heavily borrowed from work by the [Bitcraze team](https://github.com/bitcraze). The `stm-arm` image, used for 
 programming the STM32F405 chip on the Crazyflie itself, is a modified version of the [build image by Bitcraze](https://github.com/bitcraze/docker-builder) 
--- it includes OpenOCD for STM chips to enable debugging from the docker image.
+-- in addition to the Bitcraze version it includes OpenOCD for STM chips to enable debugging from the docker image; but it excludes the toolchains
+for the `cflib`.
 

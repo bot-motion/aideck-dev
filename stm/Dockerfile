@@ -7,7 +7,7 @@ RUN dpkg --add-architecture i386 && apt-get update \
 		telnet \
 		libncurses5 \
 		zip unzip \
-		sdcc libftdi-dev \
+		sdcc libftdi-dev vim \
 		python3 python3-pip python3-wheel python3-dev python3-setuptools\
 		rake \
 		python3-numpy python3-scipy \
