@@ -1,0 +1,35 @@
+# CI jobs for the GAP8 chip
+
+name: ci_gap8
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch, and only for commits relating to source code
+# that is in directories for the GAP8 chip.
+on:
+  push:
+    paths:
+    - 'src/apps/**/gap8/**'
+    - '.github/workflows/*.yml'
+    branches: [ autonomous-flie ]  ## only for visual-slam project on branch 'autonomous-flie'
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  gap8-visual-slam:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+        ref: autonomous-flie
+
+    - name: build
+      run: docker run --rm -v $PWD:/module  simatai/gapsdk:3.8.1 /bin/bash -c "ls; source /gap_sdk/configs/ai_deck.sh; cd ../src/apps/visual-slam/gap8; make clean all;"
+    
+    - name: store-gap8-build
+      uses: actions/upload-artifact@v2
+      with:
+        name: gap8-firmware
+        path: ../rc/apps/visual-slam/gap8/build
