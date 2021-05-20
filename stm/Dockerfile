@@ -4,11 +4,11 @@ LABEL maintainer="Kristoffer Richardsson <kristoffer@bitcraze.io>"
 
 RUN dpkg --add-architecture i386 && apt-get update \
     && apt-get install -y --no-install-recommends \
-		telnet \
+		telnet git \
 		libncurses5 \
 		zip unzip \
 		sdcc libftdi-dev \
-		python3 python3-pip python3-wheel python3-dev python3-setuptools\
+		vim python3 python3-pip python3-wheel python3-dev python3-setuptools\
 		rake \
 		python3-numpy python3-scipy \
 	&& rm -rf /var/lib/apt/lists/* 

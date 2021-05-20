@@ -29,7 +29,7 @@ own images. If you don't want to build your own, you can download them from the 
 
     docker pull simatai/stm-arm:1.1
     docker pull simatai/espidf:3.3.1
-    docker pull simatai/gap8:3.9.1
+    docker pull simatai/gapsdk:3.9.1
 
 
 Getting into a docker image and using the toolchain 
