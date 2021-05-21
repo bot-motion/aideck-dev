@@ -36,7 +36,7 @@ export ESP_SDK_VERSION=3.3.1
 docker build -f nina/Dockerfile --tag ${DOCKER_REPO}/espidf:${ESP_SDK_VERSION} .
 
 
-docker build -f stm/Dockerfile --tag ${DOCKER_REPO}/stm-cf:1.1
+docker build -f stm/Dockerfile --tag ${DOCKER_REPO}/arm-stm:1.1
 
 
 
