@@ -43,7 +43,7 @@ RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make all;"
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install numpy==1.16.5 
 RUN python3 -m pip install h5py==2.10.0
-RUN python3 -m pip install tensorflow=1.15.2
+RUN python3 -m pip install tensorflow==1.15.2
 
 RUN cd gap_sdk/tools/nntool; python3 -m pip install -r requirements.txt
 
