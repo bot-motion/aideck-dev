@@ -33,7 +33,10 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 RUN mkdir /new_home
 ENV HOME=/new_home
 
-# RUN pip3 install flake8==3.8.4 pyusb==1.0.0b2 mock pyserial pre-commit tox opencv-python==4.5.1.48 -vvv
+# Tools to work on the crazyflie python lib and py client
+RUN pip3 install flake8==3.8.4 pyusb==1.0.0b2 mock pyserial pre-commit tox opencv-python==4.5.1.48 -vvv
+
+RUN /bin/bash -c "echo 'alias ls = ls --color' >> ~/.bashrc "
 
 # Make pre-commit download and prepare all tools for python testing
 # ADD .pre-commit-config.yaml /dummy/.pre-commit-config.yaml

@@ -8,6 +8,14 @@ RUN echo $GAP_SDK_VERSION
 RUN apt-get update && apt-get install -y build-essential git vim protobuf-compiler libftdi-dev libftdi1 doxygen python3-pip libsdl2-dev curl cmake libusb-1.0-0-dev scons gtkwave libsndfile1-dev rsync autoconf automake texinfo libtool pkg-config libsdl2-ttf-dev libjpeg-dev
 RUN apt-get install -y wget
 
+# Install Anaconda as a substitute for Python 3 on Ubuntu. This is an experiment to run SDK 3.9.1 more smoothly.
+
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /miniconda-installer.sh
+RUN bash ~/miniconda-installer.sh -b -p /miniconda
+RUN conda create --name gap8 pip tensorflow=1.15.0 h5py==2.10.0  pandas matplotlib
+RUN conda activate gap8; conda install -r /gap_sdk/requirements.txt
+RUN conda activate gap8; conda install -r /gap_sdk/tools/nntool/requirements.txt
+
 
 # Install gap8 openocd
 RUN git clone https://github.com/GreenWaves-Technologies/gap8_openocd.git; cd gap8_openocd; ./bootstrap; ./configure --program-prefix=gap8- --prefix=/usr --datarootdir=/usr/share/gap8-openocd; make -j; make -j install
