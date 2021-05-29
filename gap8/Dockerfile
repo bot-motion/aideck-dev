@@ -12,7 +12,7 @@ RUN apt-get install -y wget
 # Install gap8 openocd
 RUN git clone https://github.com/GreenWaves-Technologies/gap8_openocd.git; cd gap8_openocd; ./bootstrap; ./configure --program-prefix=gap8- --prefix=/usr --datarootdir=/usr/share/gap8-openocd; make -j; make -j install
 
-# Install toolchain. Later we install the RISCV64 toolchain just for the gdb - the gdb included here doesn't work properly
+# Install toolchain. Later we install the RISCV64 toolchain just for the gdb - the gdb included here doesn't work properly according to Greenwaves README
 RUN git clone https://github.com/GreenWaves-Technologies/gap_riscv_toolchain_ubuntu_18.git; cd gap_riscv_toolchain_ubuntu_18 && ./install.sh "/usr/lib/gap_riscv_toolchain" && cd ..
 
 # Install Gap SDK
@@ -36,6 +36,8 @@ RUN python3 -m pip install numpy==1.16.5
 RUN python3 -m pip install h5py==2.10.0
 
 RUN cd gap_sdk/tools/nntool; python3 -m pip install -r requirements.txt
+
+RUN python3 -m pip install tensorflow
 
 RUN /bin/bash -c "cd gap_sdk/; source configs/ai_deck.sh; ls; make nntool"
 
