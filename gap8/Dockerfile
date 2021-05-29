@@ -11,8 +11,8 @@ RUN apt-get install -y wget
 # Install Anaconda as a substitute for Python 3 on Ubuntu. This is an experiment to run SDK 3.9.1 more smoothly.
 
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /miniconda-installer.sh
-RUN bash ~/miniconda-installer.sh -b -p /miniconda
-RUN conda create --name gap8 pip tensorflow=1.15.0 h5py==2.10.0  pandas matplotlib
+RUN bash /miniconda-installer.sh -b -p /miniconda
+RUN conda create --name gap8 --channel conda-forge anaconda    pip tensorflow=1.15.0 h5py==2.10.0  pandas matplotlib
 RUN conda activate gap8; conda install -r /gap_sdk/requirements.txt
 RUN conda activate gap8; conda install -r /gap_sdk/tools/nntool/requirements.txt
 
