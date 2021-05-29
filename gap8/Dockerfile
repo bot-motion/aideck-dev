@@ -12,9 +12,9 @@ RUN apt-get install -y wget
 
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /miniconda-installer.sh
 RUN bash /miniconda-installer.sh -b -p /miniconda
-RUN bash /miniconda/conda create --name gap8 --channel conda-forge anaconda      pip tensorflow=1.15.2 h5py==2.10.0 numpy=1.16.5 pandas matplotlib
-RUN bash /miniconda/conda activate gap8; /miniconda/conda install -r /gap_sdk/requirements.txt
-RUN bash /miniconda/conda activate gap8; /miniconda/conda install -r /gap_sdk/tools/nntool/requirements.txt
+RUN bash /miniconda/bin/conda create --name gap8 --channel conda-forge anaconda      pip tensorflow=1.15.2 h5py==2.10.0 numpy=1.16.5 pandas matplotlib
+RUN bash /miniconda/bin/conda activate gap8; /miniconda/bin/conda install -r /gap_sdk/requirements.txt
+RUN bash /miniconda/bin/conda activate gap8; /miniconda/bin/conda install -r /gap_sdk/tools/nntool/requirements.txt
 
 
 # Install gap8 openocd
